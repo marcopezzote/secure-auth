@@ -1,0 +1,74 @@
+# Arquivos de compilação
+bin/
+obj/
+
+# Arquivos de configuração local
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Local.json
+
+# Arquivos gerados pelo Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.sdf
+*.opensdf
+*.sln.docstates
+
+# Arquivos gerados pelo JetBrains Rider
+.idea/
+*.sln.iml
+
+# Arquivos de logs
+logs/
+*.log
+
+# Arquivos de ambiente
+.env
+.env.*
+
+# Arquivos de dependências NuGet
+packages/
+*.nupkg
+
+# Diretórios de ferramentas
+tools/
+
+# Arquivos temporários
+[Tt]emp/
+[Tt]mp/
+*.tmp
+*.swp
+
+# Artefatos de cobertura de código
+coverage/
+*.coverage
+*.coveragexml
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Segredos e chaves
+*.pfx
+*.key
+*.pem
+
+# Arquivos de banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Diretórios de publicação
+publish/
+**/[Pp]ublish/
+**/[Pp]ublished/

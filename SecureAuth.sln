@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{30BB2E1D-4ED8-4B20-9B36-5EC9D48AC608}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{25470F86-742D-458B-8FC3-E1E27AD874C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Core.Domain", "src\Core\SecureAuth.Core.Domain\SecureAuth.Core.Domain.csproj", "{566B70B6-5786-4F36-BC82-251C1483F927}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Core.Application", "src\Core\SecureAuth.Core.Application\SecureAuth.Core.Application.csproj", "{B0F8EB8A-F21E-4D9B-A2F4-A871460304A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{19BA46A0-1B4E-4831-A23E-3B5C1FF68DA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Infrastructure.Identity", "src\Infrastructure\SecureAuth.Infrastructure.Identity\SecureAuth.Infrastructure.Identity.csproj", "{88060586-3264-47F1-AC17-468CAF87123B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Infrastructure.Persistence", "src\Infrastructure\SecureAuth.Infrastructure.Persistence\SecureAuth.Infrastructure.Persistence.csproj", "{A8FD84E3-ACDE-4052-8DDE-186EA69C64BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{4D3EAF60-C22B-470D-B13A-2C0BED2C045E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Web.API", "src\Web\SecureAuth.Web.API\SecureAuth.Web.API.csproj", "{42FC9C29-1498-43C3-AEE7-3F9C64CC28A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7D1304F2-481C-4CEB-BD4D-4161E05A86C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.UnitTests", "tests\UnitTests\SecureAuth.UnitTests.csproj", "{72BC9218-0881-4C90-B8AF-440E2AA7D706}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.IntegrationTests", "tests\IntegrationTests\SecureAuth.IntegrationTests.csproj", "{CD940B50-61EF-4568-B40C-608AF463D93C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{566B70B6-5786-4F36-BC82-251C1483F927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{566B70B6-5786-4F36-BC82-251C1483F927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{566B70B6-5786-4F36-BC82-251C1483F927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{566B70B6-5786-4F36-BC82-251C1483F927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0F8EB8A-F21E-4D9B-A2F4-A871460304A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0F8EB8A-F21E-4D9B-A2F4-A871460304A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0F8EB8A-F21E-4D9B-A2F4-A871460304A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0F8EB8A-F21E-4D9B-A2F4-A871460304A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88060586-3264-47F1-AC17-468CAF87123B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88060586-3264-47F1-AC17-468CAF87123B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88060586-3264-47F1-AC17-468CAF87123B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88060586-3264-47F1-AC17-468CAF87123B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8FD84E3-ACDE-4052-8DDE-186EA69C64BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8FD84E3-ACDE-4052-8DDE-186EA69C64BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8FD84E3-ACDE-4052-8DDE-186EA69C64BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8FD84E3-ACDE-4052-8DDE-186EA69C64BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42FC9C29-1498-43C3-AEE7-3F9C64CC28A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42FC9C29-1498-43C3-AEE7-3F9C64CC28A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42FC9C29-1498-43C3-AEE7-3F9C64CC28A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42FC9C29-1498-43C3-AEE7-3F9C64CC28A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72BC9218-0881-4C90-B8AF-440E2AA7D706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72BC9218-0881-4C90-B8AF-440E2AA7D706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72BC9218-0881-4C90-B8AF-440E2AA7D706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72BC9218-0881-4C90-B8AF-440E2AA7D706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD940B50-61EF-4568-B40C-608AF463D93C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD940B50-61EF-4568-B40C-608AF463D93C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD940B50-61EF-4568-B40C-608AF463D93C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD940B50-61EF-4568-B40C-608AF463D93C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{25470F86-742D-458B-8FC3-E1E27AD874C3} = {30BB2E1D-4ED8-4B20-9B36-5EC9D48AC608}
+		{566B70B6-5786-4F36-BC82-251C1483F927} = {25470F86-742D-458B-8FC3-E1E27AD874C3}
+		{B0F8EB8A-F21E-4D9B-A2F4-A871460304A2} = {25470F86-742D-458B-8FC3-E1E27AD874C3}
+		{19BA46A0-1B4E-4831-A23E-3B5C1FF68DA5} = {30BB2E1D-4ED8-4B20-9B36-5EC9D48AC608}
+		{88060586-3264-47F1-AC17-468CAF87123B} = {19BA46A0-1B4E-4831-A23E-3B5C1FF68DA5}
+		{A8FD84E3-ACDE-4052-8DDE-186EA69C64BD} = {19BA46A0-1B4E-4831-A23E-3B5C1FF68DA5}
+		{4D3EAF60-C22B-470D-B13A-2C0BED2C045E} = {30BB2E1D-4ED8-4B20-9B36-5EC9D48AC608}
+		{42FC9C29-1498-43C3-AEE7-3F9C64CC28A0} = {4D3EAF60-C22B-470D-B13A-2C0BED2C045E}
+		{72BC9218-0881-4C90-B8AF-440E2AA7D706} = {7D1304F2-481C-4CEB-BD4D-4161E05A86C3}
+		{CD940B50-61EF-4568-B40C-608AF463D93C} = {7D1304F2-481C-4CEB-BD4D-4161E05A86C3}
+	EndGlobalSection
+EndGlobal
