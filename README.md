@@ -14,6 +14,14 @@
 
 Desenvolvido com foco em segurança, escalabilidade e manutenibilidade, o SecureAuth fornece uma base sólida para aplicações empresariais que necessitam de um sistema de identidade completo e seguro.
 
+### 🔒 Diferenciais de Segurança
+
+- **Proteção Contra Ataques Comuns**: Implementação robusta contra SQL Injection, XSS, CSRF e ataques de força bruta
+- **Tokens Seguros**: Tokens JWT com assinatura e criptografia, curto tempo de expiração e refresh tokens rotativos
+- **Armazenamento Seguro**: Senhas armazenadas com hashing avançado (PBKDF2) e salt único por usuário
+- **Logs Detalhados**: Registro completo de tentativas de login, alterações de perfil e eventos de segurança
+- **Conformidade com Padrões**: Implementação seguindo recomendações OWASP e práticas modernas de segurança
+
 ## 🚀 Funcionalidades Principais
 
 - ✅ **Autenticação Completa**: Registro, login e gestão de usuários
@@ -32,32 +40,47 @@ O projeto implementa princípios de **Clean Architecture** para garantir escalab
 
 ```
 SecureAuth/
-├── Core/
-│   ├── Domain/      # Entidades e regras de negócio
-│   └── Application/ # Casos de uso, DTOs e interfaces
-├── Infrastructure/
-│   ├── Identity/    # Implementação de Identity e autenticação
-│   └── Persistence/ # Implementação de persistência de dados
-├── Web/
-│   └── API/         # Interface REST para comunicação externa
-└── Tests/
-    ├── UnitTests/   # Testes de componentes isolados
+├── src/
+│   ├── Core/
+│   │   ├── Domain/      # Entidades e regras de negócio
+│   │   └── Application/ # Casos de uso, DTOs e interfaces
+│   ├── Infrastructure/
+│   │   ├── Identity/    # Implementação de Identity e autenticação
+│   │   └── Persistence/ # Implementação de persistência de dados
+│   └── Web/
+│       └── API/         # Interface REST para comunicação externa
+└── tests/
+    ├── UnitTests/       # Testes de componentes isolados
     └── IntegrationTests/ # Testes de integração entre componentes
 ```
 
 ## 🧠 Padrões e Tecnologias
 
-- **ASP.NET Core 8**: Framework web moderno e de alto desempenho
-- **Entity Framework Core 8**: ORM para acesso a dados
-- **Identity Framework**: Base para gerenciamento de usuários e autenticação
+### 🔧 Tecnologias Core
+- **ASP.NET Core 8**: Framework web moderno e de alto desempenho 
+- **C# 12**: Linguagem de programação fortemente tipada e orientada a objetos
+- **Entity Framework Core 8**: ORM para acesso a dados com suporte a migrations
+- **ASP.NET Identity**: Framework completo para autenticação e autorização
+- **SQL Server**: Sistema de gerenciamento de banco de dados relacional
+
+### 🔐 Segurança e Autenticação
 - **JWT Authentication**: Autenticação stateless com tokens seguros
+- **TOTP MFA**: Autenticação de dois fatores baseada em tempo (compatível com Google Authenticator)
+- **Rate Limiting**: Limitação de requisições para prevenção de ataques de força bruta
+- **Anti-Forgery Protection**: Proteção contra ataques CSRF
+
+### 🏛️ Arquitetura e Padrões
 - **Clean Architecture**: Separação de responsabilidades e inversão de dependências
-- **CQRS**: Segregação de responsabilidades entre comandos e consultas
+- **CQRS Pattern**: Segregação de responsabilidades entre comandos e consultas
 - **Repository Pattern**: Abstração da camada de acesso a dados
 - **SOLID Principles**: Princípios de design para código limpo e manutenível
 - **Dependency Injection**: Baixo acoplamento e alta testabilidade
-- **Fluent Validation**: Validações de entrada consistentes
-- **Automated Testing**: Testes unitários e de integração automatizados
+
+### 🧪 Testes e Qualidade
+- **XUnit**: Framework moderno para testes unitários e de integração
+- **Moq**: Framework de mocking para testes isolados
+- **Fluent Validations**: Validações de entrada robustas e expressivas 
+- **StyleCop**: Análise estática para garantir consistência de código
 
 ## 🛠️ Requisitos
 
@@ -69,7 +92,7 @@ SecureAuth/
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/secure-auth.git
+   git clone https://github.com/marcopezzote/secure-auth.git
    cd secure-auth
    ```
 
@@ -174,7 +197,10 @@ Este projeto está licenciado sob a licença MIT. Consulte o arquivo [LICENSE](L
 
 ## 👨‍💻 Autor
 
-**Marco** - Desenvolvedor Full Stack .NET
+**Marco Pezzote** - Desenvolvedor Full Stack .NET
+- [LinkedIn](https://www.linkedin.com/in/marcopezzote/)
+- [Website](https://marcopezzote.tech)
+- [GitHub](https://github.com/marcopezzote)
 
 ---
 
