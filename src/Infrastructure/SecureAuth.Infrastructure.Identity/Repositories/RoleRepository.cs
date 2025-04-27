@@ -148,6 +148,33 @@ public class RoleRepository : IRoleRepository
     }
 
     /// <summary>
+    /// Obtém todos os usuários em um determinado papel
+    /// </summary>
+    public async Task<IEnumerable<ApplicationUser>> GetUsersInRoleAsync(string roleName)
+    {
+        var users = await _userManager.GetUsersInRoleAsync(roleName);
+        var applicationUsers = new List<ApplicationUser>();
+        
+        foreach (var user in users)
+        {
+            applicationUsers.Add(new ApplicationUser
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                EmailConfirmed = user.EmailConfirmed,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                LockoutEnabled = user.LockoutEnabled,
+                LockoutEnd = user.LockoutEnd?.DateTime,
+                AccessFailedCount = user.AccessFailedCount
+            });
+        }
+        
+        return applicationUsers;
+    }
+
+    /// <summary>
     /// Atribui um papel a um usuário
     /// </summary>
     public async Task<bool> AssignRoleToUserAsync(string userId, string roleId)
@@ -199,8 +226,7 @@ public class RoleRepository : IRoleRepository
             Id = identityRole.Id,
             Name = identityRole.Name,
             NormalizedName = identityRole.NormalizedName,
-            Description = identityRole.Description,
-            CreatedAt = DateTime.UtcNow // Na prática, isso deveria vir do banco de dados
+            Description = identityRole.Description
         };
     }
 }

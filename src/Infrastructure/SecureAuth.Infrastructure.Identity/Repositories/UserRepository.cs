@@ -284,4 +284,19 @@ public class UserRepository : IUserRepository
             IsMfaEnabled = identityUser.IsMfaEnabled
         };
     }
+
+    public Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
+        => throw new NotImplementedException();
+    public Task<bool> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
+        => throw new NotImplementedException();
+    public Task<bool> SetLockoutEndDateAsync(ApplicationUser user, DateTimeOffset? lockoutEnd)
+        => throw new NotImplementedException();
+    public Task<int> IncrementAccessFailedCountAsync(ApplicationUser user)
+        => throw new NotImplementedException();
+    public Task<int> ResetAccessFailedCountAsync(ApplicationUser user)
+        => throw new NotImplementedException();
+    public Task<DateTimeOffset?> GetLockoutEndDateAsync(ApplicationUser user)
+        => throw new NotImplementedException();
+    public Task<int> GetAccessFailedCountAsync(ApplicationUser user)
+        => throw new NotImplementedException();
 }

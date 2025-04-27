@@ -60,6 +60,14 @@ public class AuthServiceInfrastructure : IAuthService
         }
     }
 
+    /// <summary>
+    /// Habilita ou desabilita MFA para um usuário
+    /// </summary>
+    public Task<bool> SetMfaEnabledAsync(string userId, bool enabled)
+    {
+        throw new NotImplementedException("SetMfaEnabledAsync não está implementado nesta camada.");
+    }
+
     // Repasse dos demais métodos para a implementação base
 
     public Task<AuthResult> RegisterUserAsync(UserRegistrationDto registrationDto, string origin)
@@ -112,9 +120,9 @@ public class AuthServiceInfrastructure : IAuthService
         return _authServiceImplementation.IsMfaEnabledAsync(userId);
     }
 
-    public Task<TokenResponseDto> GenerateTokensAsync(string userId, System.Collections.Generic.IEnumerable<string> roles, string ipAddress)
+    public async Task<TokenResponseDto?> GenerateTokensAsync(string userId, System.Collections.Generic.IEnumerable<string> roles, string ipAddress)
     {
-        return _authServiceImplementation.GenerateTokensAsync(userId, roles, ipAddress);
+        return await _authServiceImplementation.GenerateTokensAsync(userId, roles, ipAddress);
     }
 
     public Task<bool> ValidateTokenAsync(string token)

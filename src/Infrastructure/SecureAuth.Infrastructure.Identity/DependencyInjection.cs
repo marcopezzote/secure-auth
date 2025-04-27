@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SecureAuth.Core.Application.Interfaces;
 using SecureAuth.Core.Application.Services;
 using SecureAuth.Core.Application.Settings;
@@ -70,10 +71,8 @@ public static class DependencyInjection
         services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
         // Registrar repositórios
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IRoleRepository, RoleRepository>();
-        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-        services.AddScoped<ISecurityAuditRepository, SecurityAuditRepository>();
+        services.AddScoped<SecureAuth.Infrastructure.Persistence.Interfaces.IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<SecureAuth.Infrastructure.Persistence.Interfaces.ISecurityAuditRepository, SecurityAuditRepository>();
 
         // Registrar serviços
         services.AddScoped<IJwtService, JwtService>();

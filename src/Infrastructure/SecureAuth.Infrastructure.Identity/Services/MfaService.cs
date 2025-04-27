@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using GoogleAuthenticator;
 using Microsoft.Extensions.Options;
 using QRCoder;
+using OtpNet;
 using SecureAuth.Core.Application.DTOs;
 using SecureAuth.Core.Application.Interfaces;
 using SecureAuth.Core.Application.Settings;
@@ -35,59 +34,37 @@ public class MfaService : IMfaService
     /// </summary>
     public async Task<MfaSetupDto> SetupMfaAsync(string userId, string issuer)
     {
-        // Obter o usuário
         var user = await _userRepository.GetByIdAsync(userId);
         if (user == null)
         {
             throw new ArgumentException("Usuário não encontrado", nameof(userId));
         }
 
-        // Criar uma nova instância do TwoFactorAuthenticator
-        var tfa = new TwoFactorAuthenticator();
-
-        // Gerar uma chave secreta aleatória se o usuário ainda não tiver uma
         if (string.IsNullOrEmpty(user.MfaSecretKey))
         {
             user.MfaSecretKey = GenerateRandomSecretKey();
             await _userRepository.UpdateAsync(user);
         }
 
-        // Se não for fornecido um issuer, usar o padrão
         issuer = string.IsNullOrEmpty(issuer) ? _mfaSettings.Issuer : issuer;
+        var label = Uri.EscapeDataString(user.Email);
+        var secret = user.MfaSecretKey;
+        var otpauth = $"otpauth://totp/{issuer}:{label}?secret={secret}&issuer={issuer}&digits=6";
 
-        // Configurar chave
-        var setupInfo = tfa.GenerateSetupCode(
-            issuer,
-            user.Email,
-            user.MfaSecretKey,
-            _mfaSettings.QrCodeSize,
-            _mfaSettings.QrCodeSize
-        );
-
-        // Converter QR code para base64
-        string qrCodeBase64 = null;
+        string qrCodeBase64 = string.Empty;
         using (var qrGenerator = new QRCodeGenerator())
         {
-            var qrCodeData = qrGenerator.CreateQrCode(setupInfo.ManualEntryKey, QRCodeGenerator.ECCLevel.Q);
-            using (var qrCode = new QRCode(qrCodeData))
-            {
-                using (var bitmap = qrCode.GetGraphic(20))
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        qrCodeBase64 = Convert.ToBase64String(ms.ToArray());
-                    }
-                }
-            }
+            var qrCodeData = qrGenerator.CreateQrCode(otpauth, QRCodeGenerator.ECCLevel.Q);
+            var pngQrCode = new PngByteQRCode(qrCodeData);
+            var qrCodeBytes = pngQrCode.GetGraphic(20);
+            qrCodeBase64 = Convert.ToBase64String(qrCodeBytes);
         }
 
-        // Criar e retornar DTO
         return new MfaSetupDto
         {
             SecretKey = user.MfaSecretKey,
             QrCodeBase64 = qrCodeBase64,
-            ManualEntryKey = setupInfo.ManualEntryKey
+            ManualEntryKey = secret
         };
     }
 
@@ -109,11 +86,8 @@ public class MfaService : IMfaService
             return false;
         }
 
-        // Criar uma nova instância do TwoFactorAuthenticator
-        var tfa = new TwoFactorAuthenticator();
-
-        // Verificar o código
-        return tfa.ValidateTwoFactorPIN(user.MfaSecretKey, code);
+        var totp = new Totp(Base32Encoding.ToBytes(user.MfaSecretKey));
+        return totp.VerifyTotp(code, out _, new VerificationWindow(2, 2));
     }
 
     /// <summary>
@@ -129,7 +103,7 @@ public class MfaService : IMfaService
         }
 
         // Habilitar MFA para o usuário
-        return await _userRepository.SetMfaEnabledAsync(userId, true);
+        return await _userRepository.SetMfaEnabledAsync(userId, true, secretKey: null);
     }
 
     /// <summary>
@@ -145,7 +119,7 @@ public class MfaService : IMfaService
         }
 
         // Desabilitar MFA para o usuário
-        return await _userRepository.SetMfaEnabledAsync(userId, false, null);
+        return await _userRepository.SetMfaEnabledAsync(userId, false, string.Empty);
     }
 
     /// <summary>
@@ -154,6 +128,26 @@ public class MfaService : IMfaService
     public async Task<bool> IsMfaEnabledAsync(string userId)
     {
         return await _userRepository.IsMfaEnabledAsync(userId);
+    }
+
+    /// <summary>
+    /// Define diretamente se MFA está habilitado para um usuário
+    /// </summary>
+    public async Task<bool> SetMfaEnabledAsync(string userId, bool enabled)
+    {
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return false;
+        }
+
+        if (enabled && string.IsNullOrEmpty(user.MfaSecretKey))
+        {
+            // Não podemos habilitar MFA sem uma chave secreta
+            return false;
+        }
+
+        return await _userRepository.SetMfaEnabledAsync(userId, enabled, null);
     }
 
     /// <summary>
@@ -203,5 +197,43 @@ public class MfaService : IMfaService
         }
 
         return result.ToString();
+    }
+}
+
+// Adicionar classe Base32Encoding se não existir
+internal static class Base32Encoding
+{
+    private const string Base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+    public static byte[] ToBytes(string input)
+    {
+        input = input.TrimEnd('=');
+        int byteCount = input.Length * 5 / 8;
+        byte[] returnArray = new byte[byteCount];
+        byte curByte = 0, bitsRemaining = 8;
+        int mask = 0, arrayIndex = 0;
+        foreach (char c in input)
+        {
+            int cValue = Base32Chars.IndexOf(char.ToUpperInvariant(c));
+            if (cValue < 0) throw new ArgumentException("Invalid Base32 character", nameof(input));
+            if (bitsRemaining > 5)
+            {
+                mask = cValue << (bitsRemaining - 5);
+                curByte |= (byte)mask;
+                bitsRemaining -= 5;
+            }
+            else
+            {
+                mask = cValue >> (5 - bitsRemaining);
+                curByte |= (byte)mask;
+                returnArray[arrayIndex++] = curByte;
+                curByte = (byte)(cValue << (3 + bitsRemaining));
+                bitsRemaining += 3;
+            }
+        }
+        if (arrayIndex != byteCount)
+        {
+            returnArray[arrayIndex] = curByte;
+        }
+        return returnArray;
     }
 }

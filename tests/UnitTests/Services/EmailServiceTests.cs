@@ -25,13 +25,13 @@ public class EmailServiceTests
         
         _emailSettings = new EmailSettings
         {
-            SmtpServer = "smtp.example.com",
+            SmtpHost = "smtp.example.com",
             SmtpPort = 587,
-            SmtpUsername = "test@example.com",
-            SmtpPassword = "password",
-            SenderEmail = "noreply@example.com",
-            SenderName = "Test Sender",
-            EnableSsl = true
+            SmtpUser = "test@example.com",
+            SmtpPass = "password",
+            FromEmail = "noreply@example.com",
+            FromName = "Test Sender",
+            UseSsl = true
         };
         
         _mockEmailSettings.Setup(x => x.Value).Returns(_emailSettings);
