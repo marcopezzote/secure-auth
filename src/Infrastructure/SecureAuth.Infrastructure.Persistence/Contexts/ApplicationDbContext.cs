@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SecureAuth.Core.Domain.Entities;
+using SecureAuth.Infrastructure.Persistence.Models;
 
 namespace SecureAuth.Infrastructure.Persistence.Contexts;
 
@@ -32,12 +32,6 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.RevokedByIp).HasMaxLength(50);
             entity.Property(e => e.ReplacedByToken).HasMaxLength(128);
             entity.Property(e => e.ReasonRevoked).HasMaxLength(256);
-
-            // Relacionamento com ApplicationUser - será resolvido pelo Entity Framework Core
-            entity.HasOne(e => e.User)
-                .WithMany(u => u.RefreshTokens)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
         });
 
         // Configuração da entidade SecurityAuditLog
@@ -51,12 +45,6 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.UserId).HasMaxLength(450);
             entity.Property(e => e.IsSuccess).IsRequired();
             entity.Property(e => e.AdditionalInfo).HasMaxLength(1024);
-
-            // Relacionamento com ApplicationUser - será resolvido pelo Entity Framework Core
-            entity.HasOne(e => e.User)
-                .WithMany(u => u.SecurityLogs)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
         });
     }
 }

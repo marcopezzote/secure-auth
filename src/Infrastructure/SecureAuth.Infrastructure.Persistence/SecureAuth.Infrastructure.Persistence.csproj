@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <ProjectReference Include="..\..\Core\SecureAuth.Core.Application\SecureAuth.Core.Application.csproj" />
+    <ProjectReference Include="..\..\Core\SecureAuth.Core.Domain\SecureAuth.Core.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

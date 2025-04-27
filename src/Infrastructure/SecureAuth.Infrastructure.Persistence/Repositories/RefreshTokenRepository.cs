@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SecureAuth.Core.Domain.Entities;
-using SecureAuth.Core.Domain.Interfaces;
 using SecureAuth.Infrastructure.Persistence.Contexts;
+using SecureAuth.Infrastructure.Persistence.Interfaces;
+using SecureAuth.Infrastructure.Persistence.Models;
 
 namespace SecureAuth.Infrastructure.Persistence.Repositories;
 
