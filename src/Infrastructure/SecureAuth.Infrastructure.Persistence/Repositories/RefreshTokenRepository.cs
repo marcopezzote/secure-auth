@@ -27,8 +27,8 @@ public class RefreshTokenRepository : IRefreshTokenRepository
     public async Task<RefreshToken> GetByTokenAsync(string token)
     {
         return await _context.RefreshTokens
-            .FirstOrDefaultAsync(t => t.Token == token)
-            ?? new RefreshToken();
+            .Include(t => t.User)
+            .FirstOrDefaultAsync(t => t.Token == token);
     }
 
     /// <summary>
