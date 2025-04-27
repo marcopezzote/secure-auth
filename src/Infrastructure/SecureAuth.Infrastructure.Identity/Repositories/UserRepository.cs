@@ -29,7 +29,7 @@ public class UserRepository : IUserRepository
         var identityUser = await _userManager.FindByIdAsync(id);
         if (identityUser == null)
         {
-            return null;
+            return new ApplicationUser(); // Retorna objeto vazio para evitar null
         }
 
         return MapToApplicationUser(identityUser);
@@ -43,7 +43,7 @@ public class UserRepository : IUserRepository
         var identityUser = await _userManager.FindByEmailAsync(email);
         if (identityUser == null)
         {
-            return null;
+            return new ApplicationUser();
         }
 
         return MapToApplicationUser(identityUser);
@@ -57,7 +57,7 @@ public class UserRepository : IUserRepository
         var identityUser = await _userManager.FindByNameAsync(userName);
         if (identityUser == null)
         {
-            return null;
+            return new ApplicationUser();
         }
 
         return MapToApplicationUser(identityUser);
@@ -204,7 +204,7 @@ public class UserRepository : IUserRepository
         var identityUser = await _userManager.FindByIdAsync(user.Id);
         if (identityUser == null)
         {
-            return null;
+            return string.Empty;
         }
 
         return await _userManager.GeneratePasswordResetTokenAsync(identityUser);
@@ -268,20 +268,115 @@ public class UserRepository : IUserRepository
         return new ApplicationUser
         {
             Id = identityUser.Id,
-            UserName = identityUser.UserName,
-            Email = identityUser.Email,
-            NormalizedEmail = identityUser.NormalizedEmail,
+            UserName = identityUser.UserName ?? string.Empty,
+            Email = identityUser.Email ?? string.Empty,
+            NormalizedEmail = identityUser.NormalizedEmail ?? string.Empty,
             EmailConfirmed = identityUser.EmailConfirmed,
-            PasswordHash = identityUser.PasswordHash,
-            PhoneNumber = identityUser.PhoneNumber,
+            PasswordHash = identityUser.PasswordHash ?? string.Empty,
+            PhoneNumber = identityUser.PhoneNumber ?? string.Empty,
             PhoneNumberConfirmed = identityUser.PhoneNumberConfirmed,
             TwoFactorEnabled = identityUser.TwoFactorEnabled,
-            SecurityStamp = identityUser.SecurityStamp,
+            SecurityStamp = identityUser.SecurityStamp ?? string.Empty,
             LockoutEnabled = identityUser.LockoutEnabled,
             LockoutEnd = identityUser.LockoutEnd,
             AccessFailedCount = identityUser.AccessFailedCount,
-            MfaSecretKey = identityUser.MfaSecretKey,
+            MfaSecretKey = identityUser.MfaSecretKey ?? string.Empty,
             IsMfaEnabled = identityUser.IsMfaEnabled
         };
+    }
+
+    /// <summary>
+    /// Gera um token de confirmação de e-mail para o usuário
+    /// </summary>
+    public async Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
+    {
+        var identityUser = await _userManager.FindByIdAsync(user.Id);
+        if (identityUser == null)
+        {
+            return string.Empty;
+        }
+        return await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+    }
+
+    /// <summary>
+    /// Altera a senha do usuário
+    /// </summary>
+    public async Task<bool> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
+    {
+        var identityUser = await _userManager.FindByIdAsync(user.Id);
+        if (identityUser == null)
+        {
+            return false;
+        }
+        var result = await _userManager.ChangePasswordAsync(identityUser, currentPassword, newPassword);
+        return result.Succeeded;
+    }
+
+    /// <summary>
+    /// Define a data de término do lockout para o usuário
+    /// </summary>
+    public async Task<bool> SetLockoutEndDateAsync(ApplicationUser user, DateTimeOffset? lockoutEnd)
+    {
+        var identityUser = await _userManager.FindByIdAsync(user.Id);
+        if (identityUser == null)
+        {
+            return false;
+        }
+        var result = await _userManager.SetLockoutEndDateAsync(identityUser, lockoutEnd);
+        return result.Succeeded;
+    }
+
+    /// <summary>
+    /// Incrementa o contador de falhas de acesso do usuário
+    /// </summary>
+    public async Task<int> IncrementAccessFailedCountAsync(ApplicationUser user)
+    {
+        var identityUser = await _userManager.FindByIdAsync(user.Id);
+        if (identityUser == null)
+        {
+            return 0;
+        }
+        await _userManager.AccessFailedAsync(identityUser);
+        return await _userManager.GetAccessFailedCountAsync(identityUser);
+    }
+
+    /// <summary>
+    /// Reseta o contador de falhas de acesso do usuário
+    /// </summary>
+    public async Task<int> ResetAccessFailedCountAsync(ApplicationUser user)
+    {
+        var identityUser = await _userManager.FindByIdAsync(user.Id);
+        if (identityUser == null)
+        {
+            return 0;
+        }
+        await _userManager.ResetAccessFailedCountAsync(identityUser);
+        return 0; // Identity não retorna o valor, então retornamos 0 por padrão
+    }
+
+    /// <summary>
+    /// Obtém a data de término do lockout do usuário
+    /// </summary>
+    public async Task<DateTimeOffset?> GetLockoutEndDateAsync(ApplicationUser user)
+    {
+        var identityUser = await _userManager.FindByIdAsync(user.Id);
+        if (identityUser == null)
+        {
+            return null;
+        }
+        return await _userManager.GetLockoutEndDateAsync(identityUser);
+    }
+
+    /// <summary>
+    /// Obtém o contador de falhas de acesso do usuário
+    /// </summary>
+    public async Task<int> GetAccessFailedCountAsync(ApplicationUser user)
+    {
+        var identityUser = await _userManager.FindByIdAsync(user.Id);
+        if (identityUser == null)
+        {
+            return 0;
+        }
+        return await _userManager.GetAccessFailedCountAsync(identityUser);
     }
 }
