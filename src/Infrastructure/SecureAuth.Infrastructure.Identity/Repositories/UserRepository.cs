@@ -242,7 +242,7 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// Define se MFA está habilitado para um usuário
     /// </summary>
-    public async Task<bool> SetMfaEnabledAsync(string userId, bool enabled, string secretKey = null)
+    public async Task<bool> SetMfaEnabledAsync(string userId, bool enabled, string? secretKey = null)
     {
         var identityUser = await _userManager.FindByIdAsync(userId);
         if (identityUser == null)
