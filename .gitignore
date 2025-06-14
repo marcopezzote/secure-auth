@@ -63,6 +63,7 @@ coverage/
 *.key
 *.pem
 
+
 # Arquivos de banco de dados
 *.db
 *.sqlite
@@ -72,3 +73,6 @@ coverage/
 publish/
 **/[Pp]ublish/
 **/[Pp]ublished/
+
+# Arquivo de strings de conexão
+connection-strings.txt
