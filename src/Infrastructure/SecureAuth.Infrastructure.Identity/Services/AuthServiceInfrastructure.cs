@@ -63,9 +63,17 @@ public class AuthServiceInfrastructure : IAuthService
     /// <summary>
     /// Habilita ou desabilita MFA para um usuário
     /// </summary>
-    public Task<bool> SetMfaEnabledAsync(string userId, bool enabled)
+    public async Task<bool> SetMfaEnabledAsync(string userId, bool enabled)
     {
-        throw new NotImplementedException("SetMfaEnabledAsync não está implementado nesta camada.");
+        try
+        {
+            return await _mfaService.SetMfaEnabledAsync(userId, enabled);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Erro ao configurar MFA para o usuário {userId}: {ex.Message}");
+            return false;
+        }
     }
 
     // Repasse dos demais métodos para a implementação base
