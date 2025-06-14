@@ -71,6 +71,7 @@ public static class DependencyInjection
         services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
         // Registrar repositórios
+        services.AddScoped<IUserRepository, UserRepository>(); // <-- LINHA ADICIONADA PARA CORREÇÃO
         services.AddScoped<SecureAuth.Infrastructure.Persistence.Interfaces.IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<SecureAuth.Infrastructure.Persistence.Interfaces.ISecurityAuditRepository, SecurityAuditRepository>();
 
@@ -81,12 +82,12 @@ public static class DependencyInjection
         services.AddScoped<ISecurityAuditService, SecurityAuditService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
-        
+
         // Registrar serviço de autenticação
         // Primeiro registramos a implementação base como um serviço nomeado
         services.AddScoped<AuthService>();
         // Depois registramos a implementação da infraestrutura como a implementação padrão da interface
-        services.AddScoped<IAuthService>(provider => 
+        services.AddScoped<IAuthService>(provider =>
             new AuthServiceInfrastructure(
                 provider.GetRequiredService<AuthService>(),
                 provider.GetRequiredService<IMfaService>(),
